@@ -39,12 +39,22 @@ const writeCounter = (count, callback) => {
 // Public API - Fix this function //////////////////////////////////////////////
 
 exports.getNextUniqueId = () => {
-  counter = counter + 1;
+  readCounter((err, counter) => {
+    counter ++;
+    writeCounter(counter, (err, counter) => {
+
+      return counter;
+    });
+  });
+
+  counter ++;
+
   return zeroPaddedNumber(counter);
 };
 
 
 
+
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
 
-exports.counterFile = path.join(__dirname, 'counter.txt');
+exports.counterFile = path.join(__dirname, 'counter.txt'); //creates new file counter.txt in curr diretory

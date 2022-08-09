@@ -10,7 +10,15 @@ var items = {};
 exports.create = (text, callback) => {
   var id = counter.getNextUniqueId();
   items[id] = text;
-  callback(null, { id, text });
+  var newFile = path.join(__dirname, `${id}.txt`);
+  fs.writeFile(newFile, text, (err) => {
+    if (err) {
+      throw ('error writing counter');
+    } else {
+      callback(null, { id, text });
+    }
+  });
+  // callback(null, { id, text });
 };
 
 exports.readAll = (callback) => {
